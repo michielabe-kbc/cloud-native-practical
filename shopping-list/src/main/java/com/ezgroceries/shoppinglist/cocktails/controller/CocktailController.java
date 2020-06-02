@@ -1,6 +1,5 @@
 package com.ezgroceries.shoppinglist.cocktails.controller;
 
-import com.ezgroceries.shoppinglist.Resources;
 import com.ezgroceries.shoppinglist.cocktails.model.CocktailResource;
 import java.util.Arrays;
 import java.util.List;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CocktailController {
 
     @GetMapping
-    public Resources<CocktailResource> get(@RequestParam String search) {
-        return new Resources<>(getDummyResources());
+    public List<CocktailResource> get(@RequestParam String search) {
+        return getDummyResources();
     }
 
     private List<CocktailResource> getDummyResources() {
