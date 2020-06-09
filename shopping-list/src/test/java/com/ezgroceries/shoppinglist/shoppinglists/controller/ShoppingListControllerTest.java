@@ -1,4 +1,4 @@
-package com.ezgroceries.shoppinglist.controller;
+package com.ezgroceries.shoppinglist.shoppinglists.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
