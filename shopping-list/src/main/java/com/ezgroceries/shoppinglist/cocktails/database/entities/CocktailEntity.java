@@ -1,6 +1,7 @@
 package com.ezgroceries.shoppinglist.cocktails.database.entities;
 
 import com.ezgroceries.shoppinglist.utils.StringSetConverter;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class CocktailEntity {
     private String name;
 
     @Convert(converter = StringSetConverter.class)
-    private Set<String> ingredients;
+    private List<String> ingredients;
 
     public void setId(UUID id) {
         this.id = id;
@@ -33,11 +34,11 @@ public class CocktailEntity {
         return id;
     }
 
-    public void setIngredients(Set<String> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public Set<String> getIngredients() {
+    public List<String> getIngredients() {
         return this.ingredients;
     }
 
