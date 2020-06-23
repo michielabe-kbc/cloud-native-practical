@@ -1,19 +1,27 @@
 package com.ezgroceries.shoppinglist.shoppinglists.controller;
 
+import com.ezgroceries.shoppinglist.shoppinglists.model.ShoppingListResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@ActiveProfiles("stub")
 @AutoConfigureMockMvc
 @ComponentScan("com.ezgroceries.shoppinglist")
 public class ShoppingListControllerTest {
@@ -21,9 +29,24 @@ public class ShoppingListControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     public void getShoppingListTest() throws Exception {
-        this.mockMvc.perform(get("/shopping-lists/eb18bb7c-61f3-4c9f-981c-55b1b8ee8915")
+        MvcResult result = this.mockMvc.perform(post("/shopping-lists")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\": \"Stephanie's birthday\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.shoppingListId").exists())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String contentAsString = result.getResponse().getContentAsString();
+        ShoppingListResource shoppingListResource = objectMapper.readValue(contentAsString, ShoppingListResource.class);
+
+        this.mockMvc.perform(get("/shopping-lists/" + shoppingListResource.getShoppingListId().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.shoppingListId").exists())
@@ -59,7 +82,20 @@ public class ShoppingListControllerTest {
 
     @Test
     public void addCocktailToShoppingListTest() throws Exception {
-        this.mockMvc.perform(post("/shopping-lists/97c8e5bd-5353-426e-b57b-69eb2260ace3/cocktails")
+        MvcResult result = this.mockMvc.perform(post("/shopping-lists")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\": \"Stephanie's birthday\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.shoppingListId").exists())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String contentAsString = result.getResponse().getContentAsString();
+        ShoppingListResource shoppingListResource = objectMapper.readValue(contentAsString, ShoppingListResource.class);
+        String shoppinglistId = shoppingListResource.getShoppingListId().toString();
+
+        this.mockMvc.perform(post("/shopping-lists/" + shoppinglistId + "/cocktails")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("[\n"
                         + "  {\n"
