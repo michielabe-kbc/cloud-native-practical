@@ -5,6 +5,8 @@ import com.ezgroceries.shoppinglist.cocktails.database.CocktailDBResponse;
 import com.ezgroceries.shoppinglist.cocktails.database.entities.CocktailEntity;
 import com.ezgroceries.shoppinglist.cocktails.database.repositories.CocktailRepository;
 import com.ezgroceries.shoppinglist.cocktails.model.CocktailResource;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -28,10 +30,10 @@ public class CocktailService {
 
         return  new CocktailResource(cocktailEntity.getId(),
                 cocktailEntity.getName(),
-                "",
-                "",
-                "",
-                cocktailEntity.getIngredients());
+                cocktailEntity.getGlass(),
+                cocktailEntity.getInstructions(),
+                cocktailEntity.getImageLink(),
+                new ArrayList<>(cocktailEntity.getIngredients()));
    }
 
     public List<CocktailResource> getCocktails(String search) {
@@ -56,6 +58,10 @@ public class CocktailService {
                 newCocktailEntity.setIdDrink(drinkResource.getIdDrink());
                 newCocktailEntity.setName(drinkResource.getStrDrink());
                 newCocktailEntity.setIngredients(drinkResource.getIngredients());
+                newCocktailEntity.setGlass(drinkResource.getStrGlass());
+                newCocktailEntity.setImageLink(drinkResource.getStrDrinkThumb());
+                newCocktailEntity.setInstructions(drinkResource.getStrInstructions());
+                newCocktailEntity.setIngredients(drinkResource.getAllIngredients());
                 cocktailEntity = cocktailRepository.save(newCocktailEntity);
             }
             return cocktailEntity;

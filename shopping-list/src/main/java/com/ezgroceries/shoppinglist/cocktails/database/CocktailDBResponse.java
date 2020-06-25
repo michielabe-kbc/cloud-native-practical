@@ -1,7 +1,9 @@
 package com.ezgroceries.shoppinglist.cocktails.database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class CocktailDBResponse {
 
@@ -490,6 +492,42 @@ public class CocktailDBResponse {
 
         public void setDateModified(String dateModified) {
             this.dateModified = dateModified;
+        }
+
+        public List<String> getAllIngredients() {
+            List<String> ingredients = new ArrayList<>(
+                    Arrays.asList(
+                            strIngredient1,
+                            strIngredient2,
+                            strIngredient3,
+                            strIngredient4,
+                            strIngredient5,
+                            strIngredient6,
+                            strIngredient7,
+                            strIngredient8,
+                            strIngredient9,
+                            strIngredient10,
+                            strIngredient11,
+                            strIngredient12,
+                            strIngredient13,
+                            strIngredient14,
+                            strIngredient15
+                    ));
+            ingredients.removeIf(Objects::isNull);
+            return ingredients;
+        }
+
+        public void setAllIngredients(List<String> ingredients) {
+            this.strIngredient1 = ingredients.size() > 0 ? ingredients.get(0) : null;
+            this.strIngredient2 = ingredients.size() > 1 ? ingredients.get(1) : null;
+            this.strIngredient3 = ingredients.size() > 2 ? ingredients.get(2) : null;
+            this.strIngredient4 = ingredients.size() > 3 ? ingredients.get(3) : null;
+            this.strIngredient5 = ingredients.size() > 4 ? ingredients.get(4) : null;
+            this.strIngredient6 = ingredients.size() > 5 ? ingredients.get(5) : null;
+            this.strIngredient7 = ingredients.size() > 6 ? ingredients.get(6) : null;
+            this.strIngredient8 = ingredients.size() > 7 ? ingredients.get(7) : null;
+            this.strIngredient9 = ingredients.size() > 8 ? ingredients.get(8) : null;
+            this.strIngredient10 = ingredients.size() > 9 ? ingredients.get(9) : null;
         }
     }
 }
